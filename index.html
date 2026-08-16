@@ -960,8 +960,8 @@ function fmtDate(d){
   }catch(e){ return d.toLocaleString(); }
 }
 
-var COURSE_END = new Date(2026, 7, 20, 0, 0, 0); // Aug 20, 2026
-var DAY_ROLLOVER_OFFSET_MS = (4 * 60 + 40) * 60000; // new day starts at 4:40 AM
+var COURSE_END = new Date(2026, 7, 21, 4, 45, 0); // ends at dawn (4:45 AM) after Thursday Aug 20, 2026
+var DAY_ROLLOVER_OFFSET_MS = (4 * 60 + 45) * 60000; // new day starts at 4:45 AM
 
 function daysRemaining(){
   var shiftedNow = new Date(Date.now() - DAY_ROLLOVER_OFFSET_MS);
