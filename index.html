@@ -1264,7 +1264,13 @@ function renderMysteryPanel(){
 }
 
 
-function goldenGiftHeroHtml(){
+function firstNameOf(fullName){
+  var trimmed = (fullName || "").trim();
+  if(!trimmed) return "";
+  return trimmed.split(/\s+/)[0];
+}
+
+function goldenGiftHeroHtml(studentName){
   var pieces = "";
   for(var i=0;i<16;i++){
     var x=(4+(i*61)%92)+"%";
@@ -1273,10 +1279,12 @@ function goldenGiftHeroHtml(){
     var w=5+((i*7)%5);
     pieces += '<i style="--x:'+x+';--d:'+d+';--t:'+t+';width:'+w+'px"></i>';
   }
+  var fname = firstNameOf(studentName);
+  var congratsLine = "مبارك لكم الوصول" + (fname ? " " + escapeHtml(fname) : "");
   return '<div class="golden-gift-hero">' +
     '<div class="gg-confetti">'+pieces+'</div>' +
     '<div class="gg-box" style="--gift-mask:url(\'' + window.ASSETS.goldenGift + '\')"><img src="'+window.ASSETS.goldenGift+'" alt="الجائزة الكبرى"></div>' +
-    '<div class="gg-text">الجائزة الكبرى صارت من نصيبك 🏆<br>مبارك لكم الوصول</div>' +
+    '<div class="gg-text">الجائزة الكبرى صارت من نصيبك 🏆<br>'+congratsLine+'</div>' +
   '</div>';
 }
 
@@ -1344,7 +1352,7 @@ function studentCardHtml(s, rank){
       '<div class="tiers-row-wrap">' +
         '<div class="tiers-row">'+
           ((!s.redeemed && s.count === 40)
-            ? goldenGiftHeroHtml()
+            ? goldenGiftHeroHtml(s.name)
             : tiersRowHtml(s.count, !s.redeemed && s.count > 40))+
         '</div>' +
         redeemedOverlay +
