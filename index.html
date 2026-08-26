@@ -66,6 +66,7 @@ body{
   font-family:'ThmanyahSans','Segoe UI',Tahoma,sans-serif;
   min-height:100vh;
   overflow-x:hidden;
+  position:relative;
   text-rendering:optimizeLegibility;
   -webkit-font-smoothing:antialiased;
 }
@@ -588,10 +589,11 @@ footer.site-foot{ text-align:center; padding:22px 20px 36px; color:var(--cream-f
   backdrop-filter:blur(1.5px); -webkit-backdrop-filter:blur(1.5px);
 }
 .course-ended-watermark .cew-track{
-  height:100%; display:flex; flex-direction:column; align-items:center;
-  justify-content:space-evenly; padding:40px 0;
+  min-height:100%; display:flex; flex-direction:column; align-items:center;
+  justify-content:flex-start; gap:70px; padding:40px 0;
 }
 .course-ended-watermark span{
+  flex:0 0 auto;
   writing-mode:vertical-rl; transform:rotate(180deg);
   font-family:'ThmanyahSans',Tahoma,Arial,sans-serif;
   font-weight:900; font-size:32px; letter-spacing:10px;
@@ -599,7 +601,7 @@ footer.site-foot{ text-align:center; padding:22px 20px 36px; color:var(--cream-f
 }
 @media (max-width:520px){
   .course-ended-watermark{ width:78px; }
-  .course-ended-watermark .cew-track{ padding:24px 0; }
+  .course-ended-watermark .cew-track{ padding:24px 0; gap:40px; }
   .course-ended-watermark span{ font-size:18px; letter-spacing:5px; }
   .course-ended-banner{ margin:10px 12px 2px; font-size:12.5px; padding:9px 12px; }
 }
@@ -629,6 +631,18 @@ footer.site-foot{ text-align:center; padding:22px 20px 36px; color:var(--cream-f
 
 <div class="course-ended-watermark" aria-hidden="true">
   <div class="cew-track">
+    <span>انتهت الدورة الصيفية</span>
+    <span>انتهت الدورة الصيفية</span>
+    <span>انتهت الدورة الصيفية</span>
+    <span>انتهت الدورة الصيفية</span>
+    <span>انتهت الدورة الصيفية</span>
+    <span>انتهت الدورة الصيفية</span>
+    <span>انتهت الدورة الصيفية</span>
+    <span>انتهت الدورة الصيفية</span>
+    <span>انتهت الدورة الصيفية</span>
+    <span>انتهت الدورة الصيفية</span>
+    <span>انتهت الدورة الصيفية</span>
+    <span>انتهت الدورة الصيفية</span>
     <span>انتهت الدورة الصيفية</span>
     <span>انتهت الدورة الصيفية</span>
     <span>انتهت الدورة الصيفية</span>
