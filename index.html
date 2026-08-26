@@ -450,26 +450,25 @@ main{
   pointer-events:none; z-index:5;
   border:1px solid rgba(230,191,101,.82);
   border-radius:14px;
-  background:rgba(11,18,14,.30);
+  background:rgba(11,18,14,.42);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.12), 0 8px 24px rgba(0,0,0,.12);
   backdrop-filter:blur(2px);
   -webkit-backdrop-filter:blur(2px);
 }
 .redeemed-badge{
   font-family:'ThmanyahSans',Tahoma,Arial,sans-serif;
-  font-size:8px; line-height:1.35; font-weight:900;
-  color:#fffdf7;
-  background:rgba(18,22,20,.64);
-  border:1px solid rgba(230,191,101,.95);
-  padding:7px 15px;
-  min-width:118px;
+  font-size:13px; line-height:1.45; font-weight:900;
+  color:#1c1404;
+  background:linear-gradient(180deg, var(--brass-soft), var(--brass));
+  border:1.5px solid rgba(255,247,222,.9);
+  padding:10px 18px;
+  min-width:140px;
+  max-width:170px;
   text-align:center;
-  border-radius:12px;
-  box-shadow:0 10px 22px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.15);
-  backdrop-filter:blur(9px) saturate(125%);
-  -webkit-backdrop-filter:blur(9px) saturate(125%);
-  white-space:nowrap;
-  letter-spacing:0;
+  border-radius:14px;
+  box-shadow:0 12px 26px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.35);
+  white-space:normal;
+  letter-spacing:.2px;
 }
 
 .badge{ position:relative; width:56px; flex:none; display:flex; flex-direction:column; align-items:center; gap:3px; }
@@ -568,6 +567,43 @@ footer.site-foot{ text-align:center; padding:22px 20px 36px; color:var(--cream-f
   filter: drop-shadow(0 4px 8px rgba(212,175,72,0.5)); animation: ggFloat 3s ease-in-out infinite; }
 .badge.golden-mystery .price-tag{ background:var(--brass); color:#1c1404; border-color:transparent; }
 
+/* ===== Course ended notices ===== */
+.course-ended-banner{
+  margin:14px auto 4px; max-width:420px; padding:10px 18px;
+  border:1px solid rgba(230,191,101,.55); border-radius:14px;
+  background:rgba(11,18,14,.55);
+  backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+  font-family:'ThmanyahSans',Tahoma,Arial,sans-serif;
+  font-weight:900; font-size:14px; color:#fffdf7; text-align:center;
+  letter-spacing:.3px; line-height:1.6;
+  box-shadow:0 10px 24px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.12);
+}
+.course-ended-watermark{
+  position:fixed; top:0; bottom:0; left:50%; width:170px; z-index:9999;
+  transform:translateX(-50%);
+  pointer-events:none; overflow:hidden;
+  background:rgba(9,13,10,.66);
+  border-inline:1px solid rgba(230,191,101,.45);
+  box-shadow:0 0 30px rgba(0,0,0,.3);
+  backdrop-filter:blur(1.5px); -webkit-backdrop-filter:blur(1.5px);
+}
+.course-ended-watermark .cew-track{
+  height:100%; display:flex; flex-direction:column; align-items:center;
+  justify-content:center; gap:56px; padding:24px 0;
+}
+.course-ended-watermark span{
+  writing-mode:vertical-rl; transform:rotate(180deg);
+  font-family:'ThmanyahSans',Tahoma,Arial,sans-serif;
+  font-weight:900; font-size:24px; letter-spacing:7px;
+  color:#fffdf7; white-space:nowrap; opacity:.96;
+}
+@media (max-width:520px){
+  .course-ended-watermark{ width:78px; }
+  .course-ended-watermark .cew-track{ gap:24px; }
+  .course-ended-watermark span{ font-size:14px; letter-spacing:3px; }
+  .course-ended-banner{ margin:10px 12px 2px; font-size:12.5px; padding:9px 12px; }
+}
+
 </style>
     <script data-goatcounter="https://abidharralghifari.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
@@ -591,10 +627,18 @@ footer.site-foot{ text-align:center; padding:22px 20px 36px; color:var(--cream-f
 
 <div class="bg-pattern"></div>
 
+<div class="course-ended-watermark" aria-hidden="true">
+  <div class="cew-track">
+    <span>انتهت الدورة الصيفية</span>
+    <span>انتهت الدورة الصيفية</span>
+  </div>
+</div>
+
 <div id="splash">
   <div class="splash-inner">
     <div class="splash-frame"><img src="" id="splashLogo" alt="مجمع أبي ذر الغفاري"></div>
     <div class="splash-eyebrow">الدورة القرآنية الصيفية 1448هـ</div>
+    <div class="course-ended-banner">تم انتهاء الدورة الصيفية 1448هـ</div>
     <h1 class="splash-title">ترتيب الطلاب الحاصلين على <span class="hl">الكوبون</span> (بناءً على الأداء القرآني)<br>طلاب المرحلة المتوسطة</h1>
     <p class="splash-sub">تابع رصيدك من الكوبونات ومدى قربك من جائزتك القادمة</p>
     <div class="splash-cta">
@@ -801,6 +845,24 @@ function parseRedemptionText(text){
   return {total:total, spent:spent, remaining:Math.max(0,total-spent)};
 }
 
+// يكتشف عبارتي "حظ أوفر" و"مسافر" بجانب رقم الطالب، بغض النظر عن اختلاف الهمزة/المسافات.
+function parseSpecialBadgeText(text){
+  var raw = normalizeDigits(text == null ? "" : String(text));
+  var compact = raw.replace(/[\u2000-\u200F\u202A-\u202E]/g," ")
+    .replace(/\s+/g," ").trim();
+  if(!compact) return null;
+  var nums = compact.match(/\d+(?:\.\d+)?/g) || [];
+  var total = nums.length ? Number(nums[0]) : null;
+
+  if(/حظ\s*(أ|ا)وفر/.test(compact)){
+    return {type:"luck", total: total};
+  }
+  if(/مسافر/.test(compact)){
+    return {type:"traveler", total: total};
+  }
+  return null;
+}
+
 function buildEntry(name, countCell){
   var cleanName = String(name).trim();
   if(!cleanName) return null;
@@ -816,8 +878,32 @@ function buildEntry(name, countCell){
   if(redemption){
     return {
       name: cleanName, count: redemption.total, redeemed: true,
-      remaining: redemption.remaining, spentAmount: redemption.spent
+      remaining: redemption.remaining, spentAmount: redemption.spent,
+      badgeText: "تم صرف الكوبون"
     };
+  }
+
+  var special = parseSpecialBadgeText(countText);
+  if(!special && countCell){
+    var scandidates = [countCell.f, countCell.v];
+    for(var si=0; si<scandidates.length && !special; si++){
+      if(scandidates[si] !== null && scandidates[si] !== undefined) special = parseSpecialBadgeText(scandidates[si]);
+    }
+  }
+  if(special){
+    var specialNum = special.total !== null ? special.total : (digitsIn(countText) || 0);
+    if(special.type === "luck"){
+      return {
+        name: cleanName, count: specialNum, redeemed: true,
+        remaining: 0, spentAmount: specialNum, badgeText: "حظ أوفر"
+      };
+    }
+    if(special.type === "traveler"){
+      return {
+        name: cleanName, count: specialNum, redeemed: true,
+        remaining: 0, spentAmount: specialNum, badgeText: "سيتم الصرف حين الوصول"
+      };
+    }
   }
 
   var num = digitsIn(countText);
@@ -1111,7 +1197,8 @@ function toDisplayItem(s, tag){
   return {
     name:s.name, count:s.count, tag:tag, redeemed:redeemed, sortCount:s.count,
     remaining: (s.remaining !== undefined ? s.remaining : null),
-    spentAmount: (s.spentAmount !== undefined ? s.spentAmount : null)
+    spentAmount: (s.spentAmount !== undefined ? s.spentAmount : null),
+    badgeText: (s.badgeText !== undefined ? s.badgeText : null)
   };
 }
 
@@ -1336,7 +1423,7 @@ function studentCardHtml(s, rank){
     : '<div class="coupon-count"><b>'+s.count+'</b><span>كوبون</span></div>';
 
   var redeemedOverlay = s.redeemed
-    ? '<div class="redeemed-overlay"><span class="redeemed-badge">تم صرف الكوبون</span></div>'
+    ? '<div class="redeemed-overlay"><span class="redeemed-badge">'+escapeHtml(s.badgeText || "تم صرف الكوبون")+'</span></div>'
     : "";
 
   return (
